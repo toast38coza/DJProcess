@@ -9,9 +9,6 @@ __meta = {
     },
     'examples': [
         { 'title': 'Basic usage', 'description': __simple_example },
-    ],
-    "requirements": [
-        'slackclient==1.0.5'
     ]
 }
 

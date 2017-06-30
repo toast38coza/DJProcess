@@ -1,5 +1,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ede65256c7564d2694153b85f66fc8b6)](https://www.codacy.com/app/toast38coza/DJProcess?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=toast38coza/DJProcess&amp;utm_campaign=Badge_Grade)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/ede65256c7564d2694153b85f66fc8b6)](https://www.codacy.com/app/toast38coza/DJProcess?utm_source=github.com&utm_medium=referral&utm_content=toast38coza/DJProcess&utm_campaign=Badge_Coverage)
+
 # DJProcess
 PUT as POST for Django.
 
