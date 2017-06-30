@@ -1,9 +1,13 @@
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from django.utils.module_loading import import_string
+
 from rest_framework import routers, serializers, viewsets, mixins, response
+
 from .models import Process, Task
-from .registry import MODULE_REGISTRY
+from .registry import MODULE_REGISTRY, PROCESS_REGISTRY
+
+from yaml import load, dump
 import inspect, json
 import process.tasks
 
@@ -13,16 +17,28 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
-class ProcessSerializer(serializers.ModelSerializer):
+class ProcessDetailSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(many=True)
     class Meta:
         model = Process
         fields = '__all__'
 
-# ViewSets define the view behavior.
+class ProcessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Process
+        fields = '__all__'
+
+
 class ProcessViewSet(viewsets.ModelViewSet):
+
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
+
+class ProcessRegistryViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        processess = PROCESS_REGISTRY
+        return response.Response(processess)
 
 class TaskRegistryViewSet(viewsets.ViewSet):
 
@@ -81,6 +97,10 @@ class TaskRegistryViewSet(viewsets.ViewSet):
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 
+# create processes
+router.register(r'processes', ProcessViewSet, base_name='process')
+
+router.register(r'docs/registry/processes', ProcessRegistryViewSet, base_name='registry_processes')
 router.register(r'docs/registry/tasks', TaskRegistryViewSet, base_name='registry_tasks')
-router.register(r'processes', ProcessViewSet)
+
 

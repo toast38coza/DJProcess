@@ -1,5 +1,3 @@
-from .processes import hello_world_process
-
 import process.tasks.io
 import process.tasks.slack
 import process.tasks.foo
@@ -12,7 +10,7 @@ MODULE_REGISTRY = [
 ]
 
 PROCESS_REGISTRY = {
-    'hello-world': hello_world_process
+    'hello-world': 'HelloWorld'
 }
 
 # PROCRESS_REGISTRY.setattr(key, value)

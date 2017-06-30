@@ -55,14 +55,7 @@ http://localhost:4000
 Tasks are atomic pieces of code (functions really).
 Tasks should do only one thing.
 
-**Add a task:**
-
-```
-touch process/tasks/my_module/some_task.py
-touch process/tasks/my_module/test_some_task.py
-```
-
-**Registering a task:**
+**Creating a task:**
 
 Run: `python manage.py create_task {module_name} {task_name}`. e.g.:
 

@@ -1,0 +1,13 @@
+---
+name: HelloWorld
+description: Prints hello world
+tags:
+  - examples
+payload:
+  - key: message
+    type: string
+    required: false
+tasks:
+  - task: process.tasks.io.say_hello
+    args:
+      message: payload.message
