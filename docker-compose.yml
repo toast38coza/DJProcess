@@ -8,7 +8,9 @@ services:
     volumes:
       - .:/code
     ports:
-      - "8001:8000"
+      - "8000:8000"
+    env_file:
+      - env.dev
 
 volumes:
   postgres-db-volume:

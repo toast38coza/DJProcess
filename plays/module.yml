@@ -1,0 +1,7 @@
+---
+- hosts: server_swarm
+  vars:
+    module_path: 'process'
+
+  tasks:
+    - name:

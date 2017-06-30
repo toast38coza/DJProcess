@@ -6,7 +6,7 @@ hello_world_process = {
   },
   'validations': [],
   'tasks_sync': [
-    'process.tasks.say_hello'
+    'process.tasks.io.say_hello'
   ],
   'tasks_async': []
 }

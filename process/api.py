@@ -28,21 +28,50 @@ class TaskRegistryViewSet(viewsets.ViewSet):
 
     def list(self, request):
         docs = []
-        for name, mod, description in MODULE_REGISTRY:
+        for mod in MODULE_REGISTRY:
             module_docs = {
-                "name": name,
-                "description": description,
+                "name": mod.__name__,
+                "description": inspect.getdoc(mod),
             }
+            meta = getattr(mod, '__meta', None)
+
+            if meta is not None:
+                module_docs.update({"meta": meta})
+
             tasks = []
             for name, data in inspect.getmembers(mod):
 
                 if name.startswith('__'):
                     continue
 
-                method = getattr(process.tasks, name)
+                behaviour = []
+                try:
+                    test_module = '{}.test_{}.TaskTestCase'.format(mod.__name__, name)
+                    test_case = import_string(test_module)
+                    tests = [method[5:].replace('_', ' ') for method in dir(test_case) if method.startswith('test_')]
+                    behaviour = behaviour + tests
+                except ImportError:
+                    tests = None
+
+                meta = None
+                try:
+                    str='{}.{}.__meta'.format(mod.__name__, name)
+                    meta = import_string(str)
+                except ImportError:
+                    pass
+
+                if tests is not None:
+                    for testcase_name in dir(tests):
+                        if testcase_name.endswith('TestCase'):
+                            behaviour.append(testcase_name)
+
+                method = getattr(mod, name)
                 tasks.append({
                     'name': name,
-                    'docs': inspect.getdoc(method)
+                    'invoke_name': '{}.{}'.format(mod.__name__, name),
+                    'docs': inspect.getdoc(method),
+                    'meta': meta,
+                    'behaviour': behaviour,
                 })
             module_docs['tasks'] = tasks
             docs.append(module_docs)

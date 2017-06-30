@@ -11,7 +11,8 @@ class ProcessSignalTestCase(TestCase):
         assert len(self.tasks) == 1
 
     def test_creates_correct_task(self):
-        assert self.tasks[0].task_id == 'process.tasks.say_hello'
+        assert self.tasks[0].task_id == 'process.tasks.io.say_hello'
 
     def test_updates_task_status(self):
-        assert self.tasks[0].status == 'C'
+        assert self.tasks[0].status == 'C',\
+            'Expected task to complete successfull. Result was: {}'.format(self.tasks[0].__dict__)
