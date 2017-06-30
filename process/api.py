@@ -68,8 +68,8 @@ class TaskRegistryViewSet(viewsets.ViewSet):
 
                 meta = None
                 try:
-                    str='{}.{}.__meta'.format(mod.__name__, name)
-                    meta = import_string(str)
+                    meta_import='{}.{}.__meta'.format(mod.__name__, name)
+                    meta = import_string(meta_import)
                 except ImportError:
                     pass
 

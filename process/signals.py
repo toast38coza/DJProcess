@@ -43,7 +43,7 @@ def process_created(sender, instance, created, **kwargs):
         process_data = {}
         with open(process_path) as f:
             process_content = f.read()
-            process_data = yaml.load(process_content)
+            process_data = yaml.safe_load(process_content)
 
         tasks_now = process_data.get('tasks', [])
         execute_tasks(instance, tasks_now)
