@@ -11,3 +11,4 @@ slackclient==1.0.5
 ipdb
 ipython
 coverage
+codacy-coverage

@@ -1,15 +1,12 @@
 from django.conf.urls import url, include
-from django.contrib.auth.models import User
 from django.utils.module_loading import import_string
 
-from rest_framework import routers, serializers, viewsets, mixins, response
+from rest_framework import routers, serializers, viewsets, response
 
 from .models import Process, Task
 from .registry import MODULE_REGISTRY, PROCESS_REGISTRY
 
-from yaml import load, dump
-import inspect, json
-import process.tasks
+import inspect
 
 class TaskSerializer(serializers.ModelSerializer):
 

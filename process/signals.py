@@ -1,10 +1,9 @@
 """
 Signals for triggering asyn business processes
 """
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import post_save
 from django.utils.module_loading import import_string
 from django.dispatch import receiver
-from django.conf import settings
 from .registry import PROCESS_REGISTRY
 from .models import Process, Task
 import json, yaml
