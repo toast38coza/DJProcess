@@ -15,6 +15,10 @@ def extract_arguments(self, data, expected_payload):
     pass
 
 def execute_tasks(instance, tasks, async=False):
+
+    if async:
+        print ('not yet implemented')
+
     for task in tasks:
         task_name = task.get('task')
         task_object = Task.objects.create(

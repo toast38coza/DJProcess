@@ -8,7 +8,8 @@ MODULE_REGISTRY = [
 ]
 
 PROCESS_REGISTRY = {
-    'hello-world': 'HelloWorld'
+    'hello-world': 'HelloWorld',
+    'hello-slack': 'HelloSlack'
 }
 
 # PROCRESS_REGISTRY.setattr(key, value)

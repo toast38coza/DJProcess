@@ -7,7 +7,11 @@ payload:
   - key: message
     type: string
     required: false
+  - key: channel
+    type: string
+    default: general
 tasks:
   - task: process.tasks.slack.send_message
     args:
       message: payload.message
+      channel: payload.channel

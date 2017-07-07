@@ -24,7 +24,7 @@ class Process(models.Model):
     '''
 
     def __str__(self):
-        return self.name
+        return self.process_id
 
     process_id = models.CharField(max_length=100, choices=PROCESS_IDS)
     status = models.CharField(max_length=10, choices=PROCESS_STATUSES, default='N')
