@@ -50,6 +50,7 @@ def execute_tasks(instance, tasks, async=False):
         try:
             payload = json.loads(instance.request_data)
             data = extract_arguments(payload, task_args)
+            print ("{}({})".format(task_name, data))
             result = import_string(task_name)(**data)
             task_object.result_data=json.dumps(result)
             task_object.status = 'C'
@@ -57,7 +58,6 @@ def execute_tasks(instance, tasks, async=False):
             task_object.status = 'F'
             print(err)
             print(sys.exc_info())
-            import ipdb;ipdb.set_trace()
             # put the error message on the result_data
         task_object.save()
 
