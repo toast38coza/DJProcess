@@ -25,7 +25,7 @@ SECRET_KEY = 'lsp847ftm3o^6v-=!my711e_sya9y-f31^9jt==t6$3@9ko&r-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [host.strip() for host in os.environ.get("ALLOWED_HOSTS", '').split(',')]
 
 
 # Application definition

@@ -8,6 +8,6 @@ payload:
     type: string
     required: false
 tasks:
-  - task: process.tasks.slack.send_message
+  - task: process.tasks.io.say_hello
     args:
       message: payload.message

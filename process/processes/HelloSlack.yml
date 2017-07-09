@@ -9,9 +9,9 @@ payload:
     required: false
   - key: channel
     type: string
-    default: general
+    default: bot_factory
 tasks:
   - task: process.tasks.slack.send_message
     args:
-      message: payload.message
+      message: payload
       channel: payload.channel
