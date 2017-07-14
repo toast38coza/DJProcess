@@ -1,12 +1,13 @@
 from django.conf.urls import url, include
 from django.utils.module_loading import import_string
 
-from rest_framework import routers, serializers, viewsets, response
+from rest_framework import routers, serializers, viewsets, response, status
 
 from .models import Process, Task
 from .registry import MODULE_REGISTRY, PROCESS_REGISTRY
 
-import inspect
+from copy import deepcopy
+import inspect, json
 
 class TaskSerializer(serializers.ModelSerializer):
 
@@ -25,11 +26,22 @@ class ProcessSerializer(serializers.ModelSerializer):
         model = Process
         fields = '__all__'
 
-
 class ProcessViewSet(viewsets.ModelViewSet):
 
     queryset = Process.objects.all()
     serializer_class = ProcessSerializer
+
+    def create(self, request):
+        data = deepcopy(request.data)
+        data.update(request.GET)
+        data['request_data'] = json.dumps(request.data)
+
+        # save:
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return response.Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class ProcessRegistryViewSet(viewsets.ViewSet):
 

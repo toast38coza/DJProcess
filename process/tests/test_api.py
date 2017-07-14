@@ -35,7 +35,7 @@ class CreateProcessAPIEndpointTestCase(TestCase):
         self.url = reverse('process-list')
         data = {
             'process_id': 'hello-world',
-            'request_data': '{"message": "Hello!"}'
+            "message": "Hello!"
         }
         self.client = Client()
         self.result = self.client.post(self.url, data)
@@ -45,6 +45,15 @@ class CreateProcessAPIEndpointTestCase(TestCase):
 
     def test_it_creates_a_process(self):
         assert Process.objects.count() == 1
+
+    def test_process_id_can_be_specified_as_a_GET_param(self):
+        url = '{}?process_id={}'.format(reverse('process-list'), 'hello-world')
+        data = {
+            'request_data': '{"message": "Hello!"}'
+        }
+        result = self.client.post(url, data)
+        assert result.status_code == 201
+
 
     def test_it_creates_a_task(self):
         num_tasks = Task.objects.count()
