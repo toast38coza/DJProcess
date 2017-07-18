@@ -14,4 +14,3 @@ tasks:
   - task: process.tasks.slack.send_message
     args:
       message: payload
-      channel: payload.channel
