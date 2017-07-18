@@ -7,9 +7,8 @@ from rest_framework import routers, serializers, viewsets, response, status
 from .models import Process, Task
 from .registry import MODULE_REGISTRY, PROCESS_REGISTRY
 
-import inspect
-import yaml
-import json
+from copy import deepcopy
+import inspect, yaml, json
 
 class TaskSerializer(serializers.ModelSerializer):
 
@@ -28,6 +27,7 @@ class ProcessSerializer(serializers.ModelSerializer):
         model = Process
         fields = '__all__'
 
+    '''
     def validate(self, data):
         process_id = data.get('process_id')
         request_data = json.loads(data.get('request_data'))
@@ -56,11 +56,12 @@ class ProcessSerializer(serializers.ModelSerializer):
             #  riase a type error if the data types of do not match
             value_type = type(request_data[item['key']])
             expected_type = settings.DATA_TYPES[[item['type']]]
-            
+
             if value_type is not expected_type:
                 raise TypeError("Expected {} to be of {} type".format(item['key'], item['type']))
 
         return data
+    '''
 
 class ProcessViewSet(viewsets.ModelViewSet):
 
