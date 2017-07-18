@@ -21,7 +21,7 @@ __meta = {
     ]
 }
 
-def send_message(message, channel, **kwargs):
+def send_message(message, channel='general', **kwargs):
     '''Send a message to slack
     * Payload: { message: '...', channel: '...' }
     '''
