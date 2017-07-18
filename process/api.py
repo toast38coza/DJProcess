@@ -1,4 +1,5 @@
 from django.conf.urls import url, include
+from django.conf import settings
 from django.utils.module_loading import import_string
 
 from rest_framework import routers, serializers, viewsets, response, status
@@ -6,8 +7,9 @@ from rest_framework import routers, serializers, viewsets, response, status
 from .models import Process, Task
 from .registry import MODULE_REGISTRY, PROCESS_REGISTRY
 
-from copy import deepcopy
-import inspect, json
+import inspect
+import yaml
+import json
 
 class TaskSerializer(serializers.ModelSerializer):
 
@@ -25,6 +27,40 @@ class ProcessSerializer(serializers.ModelSerializer):
     class Meta:
         model = Process
         fields = '__all__'
+
+    def validate(self, data):
+        process_id = data.get('process_id')
+        request_data = json.loads(data.get('request_data'))
+
+        process = PROCESS_REGISTRY.get(process_id)
+
+        # load the process from the yml file
+        process_file = PROCESS_REGISTRY.get(process_id)
+        process_path = './process/processes/{}.yml'.format(process_file)
+        process_data = {}
+
+        with open(process_path) as f:
+            process_content = f.read()
+            process_data = yaml.safe_load(process_content)
+
+        # get the process' payload
+        process_payload = process_data.get('payload', [])
+
+        # for each key in the process payload
+        for item in process_payload:
+
+            # raise a keyerror if required items are not found
+            if 'required' in item and item['key'] not in request_data:
+                raise KeyError("No value found for '{}' in request payload".format(item['key']))
+
+            #  riase a type error if the data types of do not match
+            value_type = type(request_data[item['key']])
+            expected_type = settings.DATA_TYPES[[item['type']]]
+            
+            if value_type is not expected_type:
+                raise TypeError("Expected {} to be of {} type".format(item['key'], item['type']))
+
+        return data
 
 class ProcessViewSet(viewsets.ModelViewSet):
 
